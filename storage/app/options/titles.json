@@ -3,8 +3,16 @@
 		"label": "Mr",
 		"value": 1,
 		"enable": true,
-		"meta": [
+		"meta": {
 
-		]
+		}
+	},
+	{
+		"label": "Mrs",
+		"value": 2,
+		"enable": true,
+		"meta": {
+			"roles": [1, 2, 3]
+		}
 	}
 ]
