@@ -41,4 +41,16 @@ class OptionsTest extends BaseTestCase
 	{
 		$this->assertTrue((new Options)->setBasePath('custom-path')->base_path === 'custom-path');
 	}
+
+	/** @test */
+	public function can_select_an_option_by_value()
+	{
+		$this->assertTrue(Options::load('titles')->select(2)->value == 2);
+	}
+
+	/** @test */
+	public function can_verify_in_meta()
+	{
+		$this->assertTrue(Options::load('titles')->select(2)->inMeta('roles', 2));
+	}
 }
