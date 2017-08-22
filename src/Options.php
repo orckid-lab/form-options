@@ -10,6 +10,10 @@ namespace OrckidLab\FormOptions;
  * Class Options
  * @package OrckidLab\FormOptions
  */
+/**
+ * Class Options
+ * @package OrckidLab\FormOptions
+ */
 class Options
 {
 	/**
@@ -140,6 +144,14 @@ class Options
 		file_put_contents($this->getJsonPath($name), json_encode($json));
 
 		return $this;
+	}
+
+	/**
+	 * @return static
+	 */
+	public static function instance()
+	{
+		return new static;
 	}
 
 	/**
