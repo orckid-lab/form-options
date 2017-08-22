@@ -141,7 +141,7 @@ class Options
 	 */
 	public function update($name, $json)
 	{
-		file_put_contents($this->getJsonPath($name), json_encode($json));
+		file_put_contents($this->getJsonPath($name), json_encode($json, JSON_PRETTY_PRINT));
 
 		return $this;
 	}
