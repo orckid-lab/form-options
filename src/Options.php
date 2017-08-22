@@ -6,6 +6,10 @@ namespace OrckidLab\FormOptions;
  * Class FormOptions
  * @package OrckidLab\FormOptions
  */
+/**
+ * Class Options
+ * @package OrckidLab\FormOptions
+ */
 class Options
 {
 	/**
@@ -124,6 +128,24 @@ class Options
 		return $this->base_path . '/' . $name . '.json';
 	}
 
+	/**
+	 * Update the JSON file.
+	 *
+	 * @param $name
+	 * @param $json
+	 * @return $this
+	 */
+	public function update($name, $json)
+	{
+		file_put_contents($this->getJsonPath($name), json_encode($json));
+
+		return $this;
+	}
+
+	/**
+	 * @param $attribute
+	 * @return null
+	 */
 	public function __get($attribute)
 	{
 		if(isset($this->{$attribute})){
