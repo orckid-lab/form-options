@@ -3,14 +3,6 @@
 namespace OrckidLab\FormOptions;
 
 /**
- * Class FormOptions
- * @package OrckidLab\FormOptions
- */
-/**
- * Class Options
- * @package OrckidLab\FormOptions
- */
-/**
  * Class Options
  * @package OrckidLab\FormOptions
  */
@@ -144,6 +136,28 @@ class Options
 		file_put_contents($this->getJsonPath($name), json_encode($json, JSON_PRETTY_PRINT));
 
 		return $this;
+	}
+
+	/**
+	 * @param $value
+	 * @param string $attribute
+	 * @return mixed|null|static
+	 */
+	public function select($value, $attribute = 'value')
+	{
+		$match = null;
+
+		foreach($this->options as $option){
+			if($option->{$attribute} != $value){
+				continue;
+			}
+
+			$match = $option;
+
+			break;
+		}
+
+		return $match ? Option::parse($match) : $match;
 	}
 
 	/**
