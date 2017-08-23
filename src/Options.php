@@ -54,7 +54,7 @@ class Options
 	{
 		$this->loadOptions($name);
 
-		return json_encode($this->options);
+		return json_encode($this->options, JSON_PRETTY_PRINT);
 	}
 
 	/**
@@ -76,8 +76,9 @@ class Options
 	 * @param null $name
 	 * @return $this
 	 */
-	protected function loadOptions($name = null){
-		if(!$name){
+	protected function loadOptions($name = null)
+	{
+		if (!$name) {
 			return $this;
 		}
 
@@ -93,10 +94,11 @@ class Options
 	 * @return $this
 	 * @throws \Exception
 	 */
-	protected function loadJsonFile($name){
+	protected function loadJsonFile($name)
+	{
 		$path = $this->getJsonPath($name);
 
-		if(!file_exists($path)){
+		if (!file_exists($path)) {
 			throw new \Exception('The file ' . $path . ' doest not exist.');
 		}
 
@@ -128,12 +130,13 @@ class Options
 	 * Update the JSON file.
 	 *
 	 * @param $name
-	 * @param $json
+	 * @param $data
+	 * @param null $meta_factory
 	 * @return $this
 	 */
-	public function update($name, $json)
+	public function update($name, $data, $meta_factory = null)
 	{
-		file_put_contents($this->getJsonPath($name), json_encode($json, JSON_PRETTY_PRINT));
+		file_put_contents($this->getJsonPath($name), $this->format($data, $meta_factory));
 
 		return $this;
 	}
@@ -147,8 +150,8 @@ class Options
 	{
 		$match = null;
 
-		foreach($this->options as $option){
-			if($option->{$attribute} != $value){
+		foreach ($this->options as $option) {
+			if ($option->{$attribute} != $value) {
 				continue;
 			}
 
@@ -161,12 +164,26 @@ class Options
 	}
 
 	/**
+	 * @param $array
+	 * @param $meta_factory
+	 * @return string
+	 */
+	public function format($array, $meta_factory)
+	{
+		$options = array_map(function ($item) use ($meta_factory) {
+			return Option::parse($item, $meta_factory)->toArray();
+		}, $array);
+
+		return json_encode($options, JSON_PRETTY_PRINT);
+	}
+
+	/**
 	 * @param $attribute
 	 * @return null
 	 */
 	public function __get($attribute)
 	{
-		if(isset($this->{$attribute})){
+		if (isset($this->{$attribute})) {
 			return $this->{$attribute};
 		}
 
