@@ -28,6 +28,13 @@ class Option
 	 */
 	protected $meta = null;
 
+	protected $keys = [
+		'label',
+		'value',
+		'enable',
+		'meta'
+	];
+
 	/**
 	 * Option constructor.
 	 * @param string $label
@@ -47,11 +54,27 @@ class Option
 	}
 
 	/**
-	 * @param $object
+	 * @param $object Object or Array
+	 * @param $meta_factory
 	 * @return static
 	 */
-	public static function parse($object)
+	public static function parse($object, $meta_factory = null)
 	{
+		if (is_array($object)) {
+			$object = (object)($object);
+		}
+
+		$keys = [
+			'enable' => true,
+			'meta' => $meta_factory ? call_user_func($meta_factory) : new \stdClass()
+		];
+
+		foreach ($keys as $key => $default) {
+			if (!isset($object->{$key})) {
+				$object->{$key} = $default;
+			}
+		}
+
 		return new static($object->label, $object->value, $object->enable, $object->meta);
 	}
 
@@ -72,5 +95,19 @@ class Option
 	public function __get($attribute)
 	{
 		return isset($this->{$attribute}) ? $this->{$attribute} : null;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray()
+	{
+		$array = [];
+
+		foreach ($this->keys as $key){
+			$array[$key] = $this->{$key};
+		}
+
+		return $array;
 	}
 }
