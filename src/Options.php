@@ -161,14 +161,6 @@ class Options
 	}
 
 	/**
-	 * @return static
-	 */
-	public static function instance()
-	{
-		return new static;
-	}
-
-	/**
 	 * @param $attribute
 	 * @return null
 	 */
