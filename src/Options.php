@@ -6,6 +6,10 @@ namespace OrckidLab\FormOptions;
  * Class Options
  * @package OrckidLab\FormOptions
  */
+/**
+ * Class Options
+ * @package OrckidLab\FormOptions
+ */
 class Options
 {
 	/**
@@ -144,14 +148,85 @@ class Options
 	/**
 	 * @param $value
 	 * @param string $attribute
-	 * @return mixed|null|static
+	 * @return array|Option
 	 */
-	public function select($value, $attribute = 'value')
+	public function find($value, $attribute = 'value')
 	{
+		if (is_array($value)) {
+			return $this->filter($value, $attribute);
+		}
+
 		$match = null;
 
 		foreach ($this->options as $option) {
 			if ($option->{$attribute} != $value) {
+				continue;
+			}
+
+			$match = $option;
+
+			break;
+		}
+
+		return $match ? Option::parse($match) : $match;
+	}
+
+	/**
+	 * @param $value
+	 * @param string $attribute
+	 * @return array
+	 */
+	public function filter($value, $attribute = 'value')
+	{
+		$is_array = is_array($value);
+
+		return array_values(
+			array_filter(
+				array_map(function ($option) use ($attribute, $value, $is_array) {
+					if (
+						($is_array && in_array($option->value, $value))
+						|| $option->{$attribute} == $value
+					) {
+						return Option::parse($option);
+					}
+
+					return null;
+				}, $this->options)
+			)
+		);
+	}
+
+	/**
+	 * @param $attribute
+	 * @param $value
+	 * @return array
+	 */
+	public function filterMetaIn($attribute, $value)
+	{
+		return array_values(
+			array_filter(
+				array_map(function ($option) use ($attribute, $value) {
+					if (in_array($value, $option->meta->{$attribute})) {
+						return Option::parse($option);
+					}
+
+					return null;
+				}, $this->options)
+			)
+		);
+	}
+
+	/**
+	 * @param $attribute
+	 * @param $value
+	 * @return mixed|null|static
+	 */
+	public function findMeta($attribute, $value)
+	{
+		$match = null;
+
+		foreach ($this->options as $option) {
+			if ($option->meta->{$attribute} != $value) {
 				continue;
 			}
 

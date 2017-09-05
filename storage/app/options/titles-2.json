@@ -4,6 +4,7 @@
         "value": 1,
         "enable": true,
         "meta": {
+            "image": "mr.jpg",
             "roles": []
         }
     },
@@ -12,6 +13,7 @@
         "value": 2,
         "enable": true,
         "meta": {
+            "image": "mrs.jpg",
             "roles": [
                 2
             ]
@@ -22,6 +24,7 @@
         "value": 3,
         "enable": true,
         "meta": {
+            "image": "dr.jpg",
             "roles": [
                 1,
                 2

@@ -20,6 +20,13 @@ class OptionsParsingTest extends BaseTestCase
 			[
 				'label' => 'Mrs',
 				'value' => 2,
+			],
+			[
+				'label' => 'Dr',
+				'value' => 3,
+				'meta' => [
+					'roles' => [1, 2]
+				]
 			]
 		];
 
@@ -38,6 +45,14 @@ class OptionsParsingTest extends BaseTestCase
 				'enable' => true,
 				'meta' => [
 					'roles' => []
+				]
+			],
+			[
+				'label' => 'Dr',
+				'value' => 3,
+				'enable' => true,
+				'meta' => [
+					'roles' => [1, 2]
 				]
 			]
 		];
@@ -67,6 +82,14 @@ class OptionsParsingTest extends BaseTestCase
 				'meta' => [
 					'roles' => [2]
 				]
+			],
+			[
+				'label' => 'Dr',
+				'value' => 3,
+				'enable' => true,
+				'meta' => [
+					'roles' => [1, 2]
+				]
 			]
 		];
 
@@ -85,6 +108,14 @@ class OptionsParsingTest extends BaseTestCase
 				'enable' => true,
 				'meta' => [
 					'roles' => [2]
+				]
+			],
+			[
+				'label' => 'Dr',
+				'value' => 3,
+				'enable' => true,
+				'meta' => [
+					'roles' => [1, 2]
 				]
 			]
 		];
