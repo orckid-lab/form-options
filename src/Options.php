@@ -80,7 +80,7 @@ class Options
 	 * @param null $name
 	 * @return $this
 	 */
-	protected function loadOptions($name = null)
+	public function loadOptions($name = null)
 	{
 		if (!$name) {
 			return $this;
