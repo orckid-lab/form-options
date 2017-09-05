@@ -30,7 +30,9 @@ class Options
 	 */
 	public function setBasePath($path)
 	{
-		$this->base_path = $path;
+		if($path){
+			$this->base_path = $path;
+		}
 
 		return $this;
 	}
@@ -65,11 +67,14 @@ class Options
 	 * Load options.
 	 *
 	 * @param null $name
+	 * @param $path
 	 * @return mixed
 	 */
-	public static function load($name = null)
+	public static function load($name = null, $path = null)
 	{
 		$instance = self::getInstance();
+
+		$instance->setBasePath($path);
 
 		return $instance->loadOptions($name);
 	}
@@ -80,7 +85,7 @@ class Options
 	 * @param null $name
 	 * @return $this
 	 */
-	public function loadOptions($name = null)
+	protected function loadOptions($name = null)
 	{
 		if (!$name) {
 			return $this;
