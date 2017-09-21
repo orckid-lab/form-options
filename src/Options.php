@@ -10,6 +10,15 @@ namespace OrckidLab\FormOptions;
  * Class Options
  * @package OrckidLab\FormOptions
  */
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RecursiveRegexIterator;
+use RegexIterator;
+
+/**
+ * Class Options
+ * @package OrckidLab\FormOptions
+ */
 class Options
 {
 	/**
@@ -30,7 +39,7 @@ class Options
 	 */
 	public function setBasePath($path)
 	{
-		if($path){
+		if ($path) {
 			$this->base_path = $path;
 		}
 
@@ -255,6 +264,50 @@ class Options
 		}, $array);
 
 		return json_encode($options, JSON_PRETTY_PRINT);
+	}
+
+	/**
+	 * @param null $path
+	 * @return array
+	 */
+	public static function files($path = null)
+	{
+		return self::getInstance()->getFiles($path);
+	}
+
+	/**
+	 * @param $path
+	 * @return array
+	 */
+	public function getFiles($path)
+	{
+		if (!$path) {
+			$path = $this->base_path;
+		}
+
+		$files = [];
+
+		foreach ($this->filesIterator($path) as $file => $array) {
+			$files[] = [
+				'name' => basename($file, '.json'),
+				'path' => $file
+			];
+		}
+
+		return $files;
+	}
+
+	/**
+	 * @param $path
+	 * @return RegexIterator
+	 */
+	public function filesIterator($path)
+	{
+		$Directory = new RecursiveDirectoryIterator($path);
+
+		$Iterator = new RecursiveIteratorIterator($Directory);
+
+		return new RegexIterator($Iterator, '/^.+\.json/i', RecursiveRegexIterator::GET_MATCH);
 	}
 
 	/**

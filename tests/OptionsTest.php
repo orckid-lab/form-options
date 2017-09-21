@@ -108,4 +108,16 @@ class OptionsTest extends BaseTestCase
 
 		$this->assertTrue($option->meta->image === $value);
 	}
+
+	/** @test */
+	public function can_list_all_options_files_within_a_specified_path()
+	{
+		$files = Options::files('storage/app/options');
+
+		$this->assertTrue(is_array($files));
+
+		$this->assertTrue(is_array($files[0]));
+
+		$this->assertTrue($files[0]['name'] == 'titles-2');
+	}
 }
